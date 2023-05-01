@@ -9,13 +9,15 @@ git pull
 # update files in .scripts
 SCRIPTS_FOLDER=~/.scripts
 ## Create the folder if it does not exist
-if ! [-e "$SCRIPTS_FOLDER"]; then
+if [ ! -d "$SCRIPTS_FOLDER" ]; then
+    echo -e "\033[33mCreating the folder $SCRIPTS_FOLDER\033[0m"
     # Create the folder
     mkdir $SCRIPTS_FOLDER
 fi
 ## copy the files
 ls .scripts | while read file; do
     cp -f .scripts/$file $SCRIPTS_FOLDER/$file
+    echo -e "\033[33m$file copied\033[0m"
 done
 
 # update .bashrc
@@ -23,8 +25,14 @@ done
 git submodule init
 git submodule update
 ## Replace the .bashrc file
-mv -f ~/.bashrc .bashrc.old
-cp -f .bashrc ~/.bashrc
+if [ -f "~/.bashrc" ]; then
+    # Backup the old file
+    mv -f ~/.bashrc .bashrc.old
+    echo -e "\033[33m~/.bashrc saved as .bashrc.old\033[0m"
+fi
+cp -f MyBashrc/.bashrc ~/.bashrc
+echo -e "\033[34m~/.bashrc updated\033[0m"
 
+echo -e "\033[32mUpdate finished\033[0m"
 # Go back to the previous folder
 cd -
