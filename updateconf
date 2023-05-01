@@ -17,8 +17,10 @@ fi
 ## copy the files
 ls .scripts | while read file; do
     cp -f .scripts/$file $SCRIPTS_FOLDER/$file
-    echo -e "\033[33m$file copied\033[0m"
+    echo -e "\033[33m$file added to .script\033[0m"
 done
+cp -f updateconf $SCRIPTS_FOLDER/updateconf
+echo -e "\033[33mupdateconf  added to .script\033[0m"
 
 # update .bashrc
 ## Update the submodules
@@ -35,4 +37,4 @@ echo -e "\033[34m~/.bashrc updated\033[0m"
 
 echo -e "\033[32mUpdate finished\033[0m"
 # Go back to the previous folder
-cd -
+cd - > /dev/null
