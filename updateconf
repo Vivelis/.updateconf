@@ -1,7 +1,14 @@
 #!/bin/bash
 
+UPDATE_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+echo -e "\033[33mUpdate path: $UPDATE_PATH\033[0m"
+
+if [ ! -d "$UPDATE_PATH" ]; then
+    echo -e "\033[31mThe path $UPDATE_PATH does not exist\033[0m"
+    exit 1
+fi
 # Path: updateconf
-cd ~/.MyConfig
+cd $UPDATE_PATH
 
 # Update the repository
 git pull
@@ -19,11 +26,22 @@ ls .scripts | while read file; do
     cp -f .scripts/$file $SCRIPTS_FOLDER/$file
     echo -e "\033[33m$file added to .script\033[0m"
 done
-cp -f updateconf $SCRIPTS_FOLDER/updateconf
-echo -e "\033[33mupdateconf  added to .script\033[0m"
+
+# add updateconf to .scripts
+if [ ! -f "$SCRIPTS_FOLDER/updateconf" ]; then
+    echo "#!/bin/bash
+    UPDATE_PATH=$UPDATE_PATH
+    cd \$UPDATE_PATH
+    git pull
+    cd - > /dev/null
+    bash \$UPDATE_PATH/updateconf" > $SCRIPTS_FOLDER/updateconf
+    chmod +x $SCRIPTS_FOLDER/updateconf
+    echo -e "\033[33mupdateconf added to .scripts\033[0m"
+fi
 
 # update .bashrc
 ## Update the submodules
+git submodule add git@github.com:Vivelis/MyBashrc.git &> /dev/null
 git submodule init
 git submodule update
 ## Replace the .bashrc file
