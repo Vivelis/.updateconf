@@ -1,0 +1,4 @@
+FIILENAME=$1
+sudo docker pull epitechcontent/subject_template
+sudo docker image prune -f
+sudo docker run --rm -v "$(pwd):/pdf" -u $(id -u):$(id -g) epitechcontent/subject_template $FIILENAME

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Path: updateconf
+cd ~/.MyConfig
+
+# Update the repository
+git pull
+
+# update files in .scripts
+SCRIPTS_FOLDER=~/.scripts
+## Create the folder if it does not exist
+if ! [-e "$SCRIPTS_FOLDER"]; then
+    # Create the folder
+    mkdir $SCRIPTS_FOLDER
+fi
+## copy the files
+ls .scripts | while read file; do
+    cp -f .scripts/$file $SCRIPTS_FOLDER/$file
+done
+
+# update .bashrc
+## Update the submodules
+git submodule init
+git submodule update
+## Replace the .bashrc file
+mv -f ~/.bashrc .bashrc.old
+cp -f .bashrc ~/.bashrc
+
+# Go back to the previous folder
+cd -
