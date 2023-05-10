@@ -1,3 +1,5 @@
 [submodule "MyBashrc"]
 	path = MyBashrc
 	url = git@github.com:Vivelis/MyBashrc.git
+	branch = main
+	update = rebase
