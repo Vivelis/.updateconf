@@ -42,8 +42,8 @@ fi
 # update .bashrc
 ## Update the submodules
 git submodule add git@github.com:Vivelis/MyBashrc.git &> /dev/null
-git submodule init
-git submodule update
+git submodule update --init --recursive
+git submodule update --remote --merge
 ## Replace the .bashrc file
 if [ -f "~/.bashrc" ]; then
     # Backup the old file
